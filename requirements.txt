@@ -1,0 +1,17 @@
+# Exact versions used to produce the paper's results (Python 3.11, CUDA 12.8).
+numpy==2.2.6
+pandas==3.0.0
+scipy==1.16.2
+scikit-learn==1.7.2
+matplotlib==3.10.8
+seaborn==0.13.2
+tqdm==4.67.3
+uncertainty-calibration==0.1.4
+torch==2.8.0
+transformers==4.57.1
+vllm==0.10.2
+datasets==4.2.0
+accelerate==1.11.0
+sentence-transformers==5.1.2
+nbconvert==7.16.6
+ipykernel==7.1.0

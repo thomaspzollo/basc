@@ -1,0 +1,14 @@
+# Generated data and results (not distributed with the code)
+outputs/
+results/
+figures/
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+.venv/
+.pytest_cache/

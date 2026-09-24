@@ -1,0 +1,41 @@
+[project]
+name = "basc"
+version = "1.0.0"
+description = "BASC: unsupervised confidence calibration for reasoning LLMs from binary agreement"
+readme = "README.md"
+requires-python = ">=3.10"
+# Enough to run every experiment in scripts/experiments/ and the notebooks on
+# cached outputs (CPU only). Exact versions used for the paper: requirements.txt.
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "scipy>=1.13",
+    "scikit-learn>=1.5",
+    "matplotlib>=3.9",
+    "seaborn>=0.13",
+    "tqdm>=4.66",
+    "uncertainty-calibration>=0.1.4",   # imported as `calibration` (ECE, Kumar et al. 2019)
+]
+
+[project.optional-dependencies]
+# Generation, embedding, verbalized confidence, P(Yes) and base-model scoring (GPU).
+generation = [
+    "torch>=2.8",
+    "transformers>=4.57",
+    "vllm>=0.10.2",
+    "datasets>=4.0",
+    "accelerate>=1.0",
+    "sentence-transformers>=5.0",
+]
+notebooks = ["jupyter", "nbconvert"]
+dev = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
