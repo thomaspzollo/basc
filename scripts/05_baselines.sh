@@ -3,7 +3,7 @@
 #   - verbalized confidence, prompt stem 6, for every (model, dataset)
 #   - all 10 stems on the prompt-selection grid (4 models x GSM8K, TriviaQA;
 #     DeepSeek-R1-Distill-Llama-8B only on GSM8K)
-#   - P(Yes) scores of 32 pool responses per question for LR-SSC
+#   - P(Yes) scores of 32 pool responses per question for RR-SSC
 #   - base-model scores for the five Qwen3 models (appendix)
 # Token probabilities (TP, ATP) come from step 2; TT-SC and the supervised
 # reference are computed in step 6.

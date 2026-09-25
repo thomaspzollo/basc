@@ -1,6 +1,6 @@
 # BASC: Binary Agreement for Self-consistency Calibration
 
-Code for the paper **Efficient Unsupervised Confidence Calibration for Reasoning LLMs**.
+Code for the paper **Binary Agreement for Efficient Unsupervised Confidence Calibration of Reasoning LLMs**.
 
 BASC produces a calibrated confidence for a reasoning LLM's answer from a **single generation**,
 without correctness labels. On an unlabeled calibration set it samples one extra *probe*
@@ -36,7 +36,7 @@ src/basc/                    the library (pip install -e .)
   stage2.py                  Stage 2: binary isotonic recalibration (nearest-knot extension)
   sampling.py                20/20/60 calibration/test split, anchor + probe draws
   experiment.py              one trial of every method on a shared split
-  baselines.py               LR-SC, LR-SSC, supervised two-stage reference
+  baselines.py               RR-SC, RR-SSC, supervised two-stage reference
   answers.py                 \boxed{} extraction, correctness, exact-match agreement
   semantic.py                semantic agreement (bidirectional NLI entailment) for QA
   verbal_confidence.py       verbalized-confidence prompts and parsing
@@ -118,7 +118,7 @@ each step can also be run for a single (model, dataset) by calling the Python sc
 | 2 | `scripts/02_process.sh` | CPU | Slims the pickles; computes token-probability features, correctness and empirical self-consistency | `*_SLIM_train_df.pkl`, `*_ROLLOUTS_train_df.pkl`, `*_out_df_temp_0.6_k_1.csv` |
 | 3 | `scripts/03_embed.sh` | GPU | Embeds every (question, response) with the reasoning model itself and with Gemma-3-4B-it (black-box variant) | `*_question_response[_gemma]_embeddings.npz`, `*_ROLLOUTS_qr[_gemma]_embeddings.npz` |
 | 4 | `scripts/04_semantic.sh` | GPU | Semantic agreement between each deployed answer and its pool (QA only; DeBERTa-v3 NLI) | `*_ANCHOR_T0.6_semantic_agree.npz` |
-| 5 | `scripts/05_baselines.sh` | GPU | Verbalized confidence (10 prompts), P(Yes) scores for LR-SSC, base-model scores | `*_verbal_conf_stem_{i}.csv`, `*_ROLLOUTS_ssc_k32.csv`, `*_with_base_targets.csv` |
+| 5 | `scripts/05_baselines.sh` | GPU | Verbalized confidence (10 prompts), P(Yes) scores for RR-SSC, base-model scores | `*_verbal_conf_stem_{i}.csv`, `*_ROLLOUTS_ssc_k32.csv`, `*_with_base_targets.csv` |
 | 6 | `scripts/06_experiments.sh` | CPU | Every experiment: splits, fits and metrics for all methods, 10 seeds | `results/*.csv` |
 | 7 | `scripts/07_figures.sh` | CPU | Runs the notebooks | `figures/*.png`, `figures/tables/*.tex` |
 
@@ -138,7 +138,7 @@ them, so they can be deleted once it has finished; all other artifacts take abou
 | Fig. 2 (a) reliability, (b) accuracy vs. ECE$_1$ (`final_5_figure_a_b.png`) | `03_analysis_figure` | `main.csv` | `run_main.py` |
 | Fig. 3 (a) training decodes (`final_5_figure_c_d_e.png`) | `03_analysis_figure` | `main.csv`, `one_stage.csv`, `basc_tp.csv` | `run_main.py`, `run_one_stage.py`, `run_basc_tp.py` |
 | Fig. 3 (b) Stage-1 estimator | `03_analysis_figure` | `stage1_scaling.csv` | `run_stage1_scaling.py` |
-| Fig. 3 (c) Stage-2 recalibrator | `03_analysis_figure` | `stage2_recalibrators.csv` | `run_recalibrators.py` |
+| Fig. 3 (c) Stage-2 recalibrator (isotonic vs. temperature scaling, Platt, histogram binning) | `03_analysis_figure` | `stage2_recalibrators.csv` | `run_recalibrators.py` |
 | Table 2 (distribution shift) | `04_distribution_shift` | `shift_{language,math,qa}.csv`, `basc_tp_shift.csv` | `run_shift.py`, `run_basc_tp.py --setting shift` |
 | Fig. 4 (selective prediction) | `05_selective_prediction` | `selection.csv` | `run_selection.py` |
 | Table 3 (VC prompt selection) | `06_appendix_vc_prompts` | `outputs/**/*_verbal_conf_stem_*.csv` | `baselines/verbalized_confidence.py` |
@@ -168,8 +168,8 @@ Method keys used in the results files, with the paper's names:
 | `logprob` | TP: geometric-mean token probability of the response | `scripts/pipeline/process_generations.py` |
 | `ans_logprob` | ATP: same, for the `\boxed{}` answer tokens | `scripts/pipeline/process_generations.py` |
 | `verbal_conf_stem6` | VC: verbalized confidence, prompt 6 | `scripts/baselines/verbalized_confidence.py` |
-| `ridge_clip_sc[_sem]_k{k}` | LR-SC: ridge on empirical self-consistency | `baselines.fit_predict_ridge_clip` |
-| `ssc_ridge_k{k}` | LR-SSC: ridge on soft self-consistency (Huang et al., 2025) | `baselines.compute_ssc_matrix`, `scripts/baselines/ssc_scores.py` |
+| `ridge_clip_sc[_sem]_k{k}` | RR-SC: ridge on empirical self-consistency | `baselines.fit_predict_ridge_clip` |
+| `ssc_ridge_k{k}` | RR-SSC: ridge on soft self-consistency (Huang et al., 2025) | `baselines.compute_ssc_matrix`, `scripts/baselines/ssc_scores.py` |
 | `onestage_binomial_k{k}` | 1-stage (BASC-L Stage 1 on all calibration data) | `scripts/experiments/run_one_stage.py` |
 | `oracle_sc_k100` | TT-SC: test-time self-consistency, 100 samples | `experiment.oracle_sc` |
 | `sup_logreg_iso_k1` | Sup. (2-stage, correctness labels) | `baselines.fit_predict_supervised_two_stage` |
@@ -196,7 +196,7 @@ averaged over 10 random 40/60 calibration/test splits (seeds 0–9).
 
 ```bibtex
 @article{basc2026,
-  title = {Efficient Unsupervised Confidence Calibration for Reasoning LLMs},
+  title = {Binary Agreement for Efficient Unsupervised Confidence Calibration of Reasoning LLMs},
   year  = {2026}
 }
 ```

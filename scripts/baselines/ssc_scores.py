@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Per-response P(Yes) scores for the LR-SSC baseline (Huang et al., 2025).
+"""Per-response P(Yes) scores for the RR-SSC baseline (Huang et al., 2025).
 
 For the first k_ssc=32 probe-pool responses of every question, append
 "Is the answer correct? (Yes/No)" to the (question, response) conversation and
@@ -12,7 +12,7 @@ with answers grouped by exact match of the cleaned answer string.
 
 Output: *_ROLLOUTS_ssc_k32.csv
         {id, sample_idx, answer, c, ssc, cluster_id, cluster_size, n_scored}
-LR-SSC recomputes SSC over the first k responses from `c` (basc.baselines).
+RR-SSC recomputes SSC over the first k responses from `c` (basc.baselines).
 """
 from __future__ import annotations
 

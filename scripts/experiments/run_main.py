@@ -5,7 +5,7 @@ per-dataset results and reliability diagrams).
 For every (model, dataset) and seed, the 1000 questions are split 20/20/60 into
 D_score / D_iso / D_test, and every method is scored on the deployed T=0.6
 answers of D_test:
-  - calibration-set methods (basc.experiment): BASC-L, LR-SC, LR-SSC, the
+  - calibration-set methods (basc.experiment): BASC-L, RR-SC, RR-SSC, the
     supervised reference and TT-SC;
   - single-generation baselines: TP, ATP and VC.
 Rows hold ECE1/ECE2/MCE/NLL/Brier/AUROC and pooled-reliability bins; BASC-style
@@ -116,9 +116,9 @@ def main():
     ap.add_argument("--k_variants", nargs="+", type=int, default=[2, 5, 10, 20, 100],
                     help="BASC-L decodes per Stage-1 question")
     ap.add_argument("--ridge_k_variants", nargs="+", type=int, default=[2, 5, 10, 20, 100],
-                    help="LR-SC decodes per question")
+                    help="RR-SC decodes per question")
     ap.add_argument("--ssc_k_variants", nargs="*", type=int, default=[2, 5, 10, 20, 100],
-                    help="LR-SSC decodes per question (skipped beyond the SSC file's coverage)")
+                    help="RR-SSC decodes per question (skipped beyond the SSC file's coverage)")
     ap.add_argument("--variant", choices=("own", "gemma"), default="own",
                     help="embedding backbone: the reasoning model ('own') or Gemma-3-4B-it ('gemma')")
     ap.add_argument("--outputs_dir", default=None, help="default: basc.paths.OUTPUTS_DIR")

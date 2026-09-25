@@ -16,7 +16,7 @@ Module map:
   sampling        calibration/test splits and anchor + probe draws
   stage1          binomial-logistic score model (Stage 1)
   stage2          binary isotonic recalibration (Stage 2)
-  baselines       LR-SC / LR-SSC ridge baselines, supervised reference
+  baselines       RR-SC / RR-SSC ridge baselines, supervised reference
   experiment      one trial of every method on a shared split
   shift           distribution-shift split definitions
   metrics         ECE, Brier, AUROC, reliability bins, selective prediction

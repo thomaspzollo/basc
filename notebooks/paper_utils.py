@@ -45,13 +45,13 @@ METHOD_COLOR = {
     # references
     "oracle_sc_k100":     "#8C8C8C",
     "sup_logreg_iso_k1":  "#17BECF",
-    # LR-SC
+    # RR-SC
     "ridge_clip_sc_k2":   "#E4CE94",
     "ridge_clip_sc_k5":   "#CCB974",
     "ridge_clip_sc_k10":  "#A6BB7E",
     "ridge_clip_sc_k20":  "#80BD9A",
     "ridge_clip_sc_k100": "#64B5CD",
-    # LR-SSC
+    # RR-SSC
     "ssc_ridge_k2":       "#FEEECD",
     "ssc_ridge_k5":       "#FDCC8A",
     "ssc_ridge_k10":      "#DA8BC3",
@@ -72,22 +72,22 @@ METHOD_LABEL = {
     "basc_tp":            "BASC-TP",
     "oracle_sc_k100":     "TT-SC",
     "sup_logreg_iso_k1":  "Sup. (2-stage)",
-    "ridge_clip_sc_k2":   "LR - SC (k=2)",
-    "ridge_clip_sc_k5":   "LR - SC (k=5)",
-    "ridge_clip_sc_k10":  "LR - SC (k=10)",
-    "ridge_clip_sc_k20":  "LR - SC (k=20)",
-    "ridge_clip_sc_k100": "LR - SC (k=100)",
-    "ssc_ridge_k2":       "LR - SSC (k=2)",
-    "ssc_ridge_k5":       "LR - SSC (k=5)",
-    "ssc_ridge_k10":      "LR - SSC (k=10)",
-    "ssc_ridge_k20":      "LR - SSC (k=20)",
+    "ridge_clip_sc_k2":   "RR - SC (k=2)",
+    "ridge_clip_sc_k5":   "RR - SC (k=5)",
+    "ridge_clip_sc_k10":  "RR - SC (k=10)",
+    "ridge_clip_sc_k20":  "RR - SC (k=20)",
+    "ridge_clip_sc_k100": "RR - SC (k=100)",
+    "ssc_ridge_k2":       "RR - SSC (k=2)",
+    "ssc_ridge_k5":       "RR - SSC (k=5)",
+    "ssc_ridge_k10":      "RR - SSC (k=10)",
+    "ssc_ridge_k20":      "RR - SSC (k=20)",
 }
 
 
 def promote_semantic(df: pd.DataFrame, by=("dataset",)) -> pd.DataFrame:
     """Apply the paper's agreement rule to a results table.
 
-    On the QA datasets, BASC and LR-SC use semantic agreement: within each
+    On the QA datasets, BASC and RR-SC use semantic agreement: within each
     group of `by`, every `*_sem_k*` method replaces its exact-match twin and
     takes its name (e.g. basc_sem_k2 -> basc_k2). On the math datasets (or if
     no semantic rows exist) the `*_sem_k*` rows are dropped.

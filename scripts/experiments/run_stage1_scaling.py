@@ -4,7 +4,7 @@
 With BASC's binary isotonic Stage 2 held fixed, compare two Stage-1 score
 models trained on D_score with k-1 probes per question:
   binomial  BASC-L's binomial-logistic regression on the binary agreements
-  ridge     ridge regression on the empirical self-consistency rate (LR-SC)
+  ridge     ridge regression on the empirical self-consistency rate (RR-SC)
 for k in {2, 3, 5, 10, 20, 50, 100}. Rows are recorded both before
 (stage2="raw") and after (stage2="iso_binary") Stage 2.
 """

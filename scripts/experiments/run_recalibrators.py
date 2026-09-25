@@ -5,6 +5,8 @@ Replaces BASC's binary isotonic Stage 2 with alternative recalibrators, all fit
 on the same single-probe agreement labels:
   iso           binary isotonic, nearest-knot extension (BASC)
   platt         logistic regression on logit(score)
+  temp          temperature scaling (Guo et al., 2017): sigma(logit(score) / T),
+                i.e. Platt without an intercept
   hist{5,10,20} uniform-mass histogram binning
   platt_bin{5,10}  scaling-binning (Kumar et al., 2019): Platt on one half of
                 the calibration set, uniform-mass bins of the Platt outputs on
@@ -58,6 +60,15 @@ def _platt_fit(u_cal, b_cal):
 
 def platt(u_cal, b_cal, u_test):
     return _platt_fit(u_cal, b_cal)(u_test)
+
+
+def temp_scale(u_cal, b_cal, u_test):
+    """One parameter T > 0 fit by NLL: can sharpen or flatten the score but not shift it."""
+    if len(np.unique(b_cal)) < 2:
+        return np.full(len(u_test), float(np.mean(b_cal)))
+    lr = LogisticRegression(C=1e4, max_iter=1000, fit_intercept=False)
+    lr.fit(_logit(u_cal)[:, None], b_cal)
+    return lr.predict_proba(_logit(u_test)[:, None])[:, 1]
 
 
 def platt_binning(u_cal, b_cal, u_test, n_bins, rng):
@@ -116,6 +127,7 @@ def run_combo(job):
                 "raw": np.clip(u_test, 0, 1),
                 "iso": fit_binary_isotonic(u_cal, b_cal).predict(u_test),
                 "platt": platt(u_cal, b_cal, u_test),
+                "temp": temp_scale(u_cal, b_cal, u_test),
             }
             for nb in HIST_BINS:
                 preds[f"hist{nb}"] = hist_binning(u_cal, b_cal, u_test, nb)

@@ -1,8 +1,8 @@
 """Embedding-based baselines and references.
 
-  LR-SC   ridge regression from anchor embeddings to the empirical
+  RR-SC   ridge regression from anchor embeddings to the empirical
           self-consistency rate (one stage, clipped to [0, 1]).
-  LR-SSC  the same regressor fit to the confidence-weighted soft
+  RR-SSC  the same regressor fit to the confidence-weighted soft
           self-consistency (SSC) target of Huang et al. (2025).
   Sup.    the two-stage BASC recipe with true correctness labels in place of
           agreement (logistic regression on D_score, binary isotonic on D_iso).

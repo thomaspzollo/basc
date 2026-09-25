@@ -10,9 +10,9 @@ Method keys:
                          probes per question (k decodes incl. the anchor),
                          binary isotonic Stage 2 on D_iso with one probe each.
   basc_sem_k{k}          same with semantic (NLI) agreement (QA only).
-  ridge_clip_sc[_sem]_k{k}  LR-SC: ridge on the empirical SC rate from k-1
+  ridge_clip_sc[_sem]_k{k}  RR-SC: ridge on the empirical SC rate from k-1
                          probes, trained on D_score + D_iso (one stage).
-  ssc_ridge_k{k}         LR-SSC: ridge on the SSC target of the first k pool
+  ssc_ridge_k{k}         RR-SSC: ridge on the SSC target of the first k pool
                          responses of every calibration question.
   sup_logreg_iso_k1      supervised two-stage reference (correctness labels).
   oracle_sc_k100         TT-SC: agreement of the deployed answer with all
@@ -55,7 +55,7 @@ def fit_all_methods(
     score  -- D_score anchors with max_k-1 probes each (BASC Stage 1).
     iso    -- D_iso anchors with one probe each (BASC Stage 2).
     lr_iso -- D_iso anchors with max_k-1 independently drawn probes, so the
-              one-stage LR-SC baseline trains on D_score + D_iso at k probes.
+              one-stage RR-SC baseline trains on D_score + D_iso at k probes.
     """
     scores: Dict[str, np.ndarray] = {}
     X_iso_test = np.concatenate([iso.X, X_test], axis=0)
@@ -74,7 +74,7 @@ def fit_all_methods(
     if score.sem_agree is not None and iso.sem_agree is not None:
         _basc(score.sem_agree, iso.sem_agree, "basc_sem")
 
-    # LR-SC on D_score + D_iso.
+    # RR-SC on D_score + D_iso.
     X_lr = np.concatenate([score.X, lr_iso.X], axis=0)
     lr_agree = {"": np.concatenate([score.agree, lr_iso.agree], axis=0)}
     if score.sem_agree is not None and lr_iso.sem_agree is not None:
@@ -86,7 +86,7 @@ def fit_all_methods(
             y_sc = empirical_sc(agree[:, : k - 1])
             scores[f"ridge_clip_sc{tag}_k{k}"] = fit_predict_ridge_clip(X_lr, y_sc, X_test, random_state=seed)
 
-    # LR-SSC: rows are the first k pool responses of every calibration
+    # RR-SSC: rows are the first k pool responses of every calibration
     # question, target = their SSC; no Stage 2 (Huang et al.'s recipe).
     if ssc_c_mat is not None and ssc_answers is not None:
         n_train = len(ssc_train_pos)
