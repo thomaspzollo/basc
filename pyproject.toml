@@ -3,6 +3,7 @@ name = "basc"
 version = "1.0.0"
 description = "BASC: unsupervised confidence calibration for reasoning LLMs from binary agreement"
 readme = "README.md"
+license = {file = "LICENSE"}
 requires-python = ">=3.10"
 # Enough to run every experiment in scripts/experiments/ and the notebooks on
 # cached outputs (CPU only). Exact versions used for the paper: requirements.txt.

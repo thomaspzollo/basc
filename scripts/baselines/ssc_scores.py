@@ -17,7 +17,6 @@ RR-SSC recomputes SSC over the first k responses from `c` (basc.baselines).
 from __future__ import annotations
 
 import argparse
-import os
 import random
 from collections import defaultdict
 

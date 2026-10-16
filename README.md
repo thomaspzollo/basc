@@ -27,6 +27,7 @@ At deployment only the one response is generated; no probes are needed.
 - [Methods and baselines](#methods-and-baselines)
 - [Reproducibility notes](#reproducibility-notes)
 - [Citation](#citation)
+- [License](#license)
 
 ## Repository layout
 
@@ -200,3 +201,7 @@ averaged over 10 random 40/60 calibration/test splits (seeds 0–9).
   year  = {2026}
 }
 ```
+
+## License
+
+MIT; see [LICENSE](LICENSE).
